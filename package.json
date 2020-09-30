@@ -1,0 +1,29 @@
+{
+  "name": "node-auth1-project",
+  "version": "1.0.0",
+  "description": "## Introduction",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Heart8reak/node-auth1-redo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Heart8reak/node-auth1-redo/issues"
+  },
+  "homepage": "https://github.com/Heart8reak/node-auth1-redo#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "helmet": "^4.1.1",
+    "knex": "^0.21.6",
+    "nodemon": "^2.0.4",
+    "sqlite3": "^5.0.0"
+  }
+}
