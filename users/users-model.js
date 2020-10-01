@@ -12,14 +12,14 @@ function find(id) {
 }
 
 function findBy(filter) {
-	return db('users').where(filter);
+	return db('users').select('id', 'username', 'password').where(filter);
 }
 
-async function add(user) {
-	return db('users').insert(user, 'id').then((ids) => {
+function add(player) {
+	return db('users').insert(player, 'id').then((ids) => {
 		console.log(ids, 'Welcome, to the MATRIX!');
 		const [ id ] = ids;
-		return getById(id);
+		return findById(id);
 	});
 }
 
