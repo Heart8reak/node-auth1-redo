@@ -14,19 +14,18 @@ const server = express();
 const sessionConfig = {
 	name: 'Ricky Bobby',
 	secret: 'Say Hello To My Little Friend, TOMAA',
-	resave: false,
 	cookie: {
 		maxAge: 1000 * 60 * 60,
 		secure: false,
 		httpOnly: true
 	},
+	resave: false,
 	saveUninitialized: false
 };
 
+server.use(session(sessionConfig));
 server.use(helmet());
 server.use(express.json());
-
-server.use(session(sessionConfig));
 
 server.use('/api/users', Authenticator, UsersRouter);
 server.use('/api/auth', AuthRouter);

@@ -8,52 +8,29 @@ router.post('/register', async (req, res, next) => {
 	let user = req.body;
 	const hash = bcrypt.hashSync(user.password, 10);
 	user.password = hash;
-
-	Users.add(user)
-		.then(
-			(user) =>
-				user
-					? (req.session.loggedIn = true) & res.status(200).json({ message: 'Success', user })
-					: res.status(400).json({ message: 'We need your name and password to continue' })
-		)
-		.catch((err) => res.status(500).json({ message: err.message }));
-
-	// try {
-	// 	const saved = await Users.add(user);
-	// 	res.status(201).json(saved);
-	// } catch (err) {
-	// 	next({ apiCode: 500, apiMessage: 'Error in Registering', ...err });
-	// }
-	// let user = req.body;
-	// const rounds = 10;
-	// const hash = bcrypt.hashSync(user.password, rounds);
-	// user.password = hash;
-	// Users.add(user)
-	// 	.then((saved) => {
-	// 		res.status(201).json({ message: 'Success with creating your Awesome password', saved });
-	// 	})
-	// 	.catch((error) => {
-	// 		res.status(500).json({ errorMessage: error.message });
-	// 	});
-});
-
-router.post('/login', (req, res) => {
-	let { username, password } = req.body;
-	if (username && password) {
-		Users.findBy({ username })
-			.first()
-			.then((user) => {
-				user && bcrypt.compareSync(password, user.password)
-					? (req.session.username = user.username) &
-						(req.session.loggedIn = true) &
-						res.status(200).json({ message: `Welcome ${username}` })
-					: res.status(401).json({ message: `Who are you??? Invalid Credentials` });
-			})
-			.catch((err) => res.status(500).json({ errorMessage: error.message }));
-	} else {
-		res.status(400).json({ error: 'You shall not pass!' });
+	try {
+		const saved = await Users.add(user);
+		res.status(201).json({ message: 'Success', saved });
+	} catch (err) {
+		next({ apiCode: 500, apiMessage: 'error registering', ...err });
 	}
 });
+
+// router.post('/login', async (req, res, next) => {
+// 	let { username, password } = req.body;
+// 	const [ user ] = await Users.findBy({ username });
+
+// 	try {
+// 		if (user && bcrypt.compareSync(password, user.password)) {
+// 			req.session.user = user;
+// 			res.status(200).json({ message: `Welcome ${user.username}, you are the winner!` });
+// 		} else {
+// 			next({ apiCode: 401, apiMessage: 'Invalid Credentials' });
+// 		}
+// 	} catch (err) {
+// 		next({ apiCode: 500, apiMessage: 'Error Logging in', ...err });
+// 	}
+// });
 
 router.get('/logout', (req, res) => {
 	console.log(req.session.cookie);
