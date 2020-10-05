@@ -7,7 +7,7 @@ const UsersRouter = require('../users/users-router');
 const AuthRouter = require('../auth/auth-router');
 const LoginRouter = require('../login/login-router');
 
-const Authenticator = require('../auth/authenticator');
+// const Authenticator = require('../auth/authenticator');
 
 const server = express();
 
@@ -27,7 +27,7 @@ server.use(session(sessionConfig));
 server.use(helmet());
 server.use(express.json());
 
-server.use('/api/users', Authenticator, UsersRouter);
+server.use('/api/users', UsersRouter);
 server.use('/api/auth', AuthRouter);
 server.use('/api/login', LoginRouter);
 
